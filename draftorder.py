@@ -43,9 +43,10 @@ if __name__ == '__main__':
             selected_players.append(player_drawn)
             pick_prefs = players[player_drawn][1]
             current_pick = 0
+            i = 0
             while current_pick in taken_picks:
-                current_pick = pick_prefs[0]
-                pick_prefs = pick_prefs[1:]
+                current_pick = pick_prefs[i]
+                i += 1
             taken_picks.append(current_pick)
             player_pick_dict[pick_names[current_pick - 1]] = player_drawn
     chat_client.send_message(player_pick_dict)
