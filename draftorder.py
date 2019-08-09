@@ -17,12 +17,18 @@ player_pick_dict = {}
 
 player_placement = 'Alex,John,Neil,Ben,Sahil,Guillem,Rohan,Ravi,Chris,Allie'.split(',')
 
+PLAYER_FILE = 'player_values_2018.json'
+
+CREDS = 'creds.json'
+
+LOTTERIED = 6
+
 if __name__ == '__main__':
 
-    with open('player_values_2018.json', 'rb') as file:
+    with open(PLAYER_FILE, 'rb') as file:
         players = json.load(file)
 
-    with open('creds.json', 'rb') as file:
+    with open(CREDS, 'rb') as file:
         credentials = json.load(file)
 
     combos = np.array(sum([[player] * odds_prefs[0] for player, odds_prefs in players.items()], []))
@@ -31,7 +37,7 @@ if __name__ == '__main__':
 
     chat_client = FacebookMessenger(credentials)
 
-    while len(taken_picks) < 6:
+    while len(taken_picks) < LOTTERIED:
         ball_drawn = balls[i]
         i += 1
         player_drawn = combos[ball_drawn]
@@ -43,10 +49,10 @@ if __name__ == '__main__':
             selected_players.append(player_drawn)
             pick_prefs = players[player_drawn][1]
             current_pick = 0
-            i = 0
+            j = 0
             while current_pick in taken_picks:
-                current_pick = pick_prefs[i]
-                i += 1
+                current_pick = pick_prefs[j]
+                j += 1
             taken_picks.append(current_pick)
             player_pick_dict[pick_names[current_pick - 1]] = player_drawn
     chat_client.send_message(player_pick_dict)
