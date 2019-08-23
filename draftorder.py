@@ -12,7 +12,7 @@ lottery "balls" in play. Random numbers balls are drawn, which each have a name
 # 1.0 Establishing globals. All of these should be pretty obvious.
 PICK_NAMES = '1st,2nd,3rd,4th,5th,6th,7th,8th,9th,10th,11th,12th'.split(',')
 
-PLAYER_FILE = 'player_values_2018.json'
+PLAYER_FILE = 'player_values_2019.json'
 
 CREDS = 'creds.json'
 
@@ -78,12 +78,9 @@ if __name__ == '__main__':
                 current_pick = pick_prefs[j]
                 j += 1
             # 5.5 Adds it to the record
-            taken_picks.update(current_pick)
+            taken_picks.update([current_pick])
             player_pick_dict[PICK_NAMES[current_pick - 1]] = player_drawn
     # That's the end of the lottery
-
-    # DEBUG ONLY TODO DELETE
-    # print(player_pick_dict)
 
     # Just for fun, calculate the probability of the result. Rull easy.
     prob = 1
@@ -104,7 +101,7 @@ if __name__ == '__main__':
             while current_pick in taken_picks:
                 current_pick = pick_prefs[0]
                 pick_prefs = pick_prefs[1:]
-            taken_picks.update(current_pick)
+            taken_picks.update([current_pick])
             player_pick_dict[PICK_NAMES[current_pick - 1]] = name
 
     # 7.0 Finale time!
