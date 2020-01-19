@@ -1,4 +1,2 @@
-fbchat==1.7.3
 numpy==1.17.0
 pandas==0.25.0
-requests==2.22.0
