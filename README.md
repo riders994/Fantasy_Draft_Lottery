@@ -1,8 +1,11 @@
 # Fantasy Draft Lottery and Average Draft Position Scripts
 
-These are simple scripts that I find useful for my fantasy league. One is used to calculate average draft position to test out different odds rollouts. The other is the script I use to actually run my fantasy basketball league, and post the results directly to facebook.
+I am in the process of classing these scripts. Updates will be made periodically as WojBot is updated.
 
-Currently both scripts are run just by using the `python <file>` command. More will be added later.
+These scripts are to simulate the NBA draft lottery for my fantasy league. I also have an ADP tester to see how different odds rollouts tend to go.
 
+This will soon be integrated fully into WojBot, but will always be usable by anyone as standalone scripts. The goal is for anyone to be able to use these, even though they probably won't want to.
+
+TODO: Class up the ADP test
 TODO: Add debugging options to draftorder
 TODO: Add user input options to adp_test

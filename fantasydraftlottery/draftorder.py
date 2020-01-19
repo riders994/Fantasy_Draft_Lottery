@@ -3,9 +3,13 @@ import numpy as np
 
 # 1.0 Establishing globals.
 
+# 1.1 This function is super great, found on SO
+
 
 def ordinal(n):
     return "%d%s" % (n, "tsnrhtdd"[(n/10 % 10 != 1)*(n % 10 < 4)*n % 10::4])
+
+# 1.2 just loading the defaults for testing
 
 
 PLAYER_FILE = './resources/player_values_2019.json'
@@ -17,11 +21,8 @@ class Lottery:
     messages = []
     pick_messages = []
 
-    def __init__(self):
-        pass
-
     def run(self, player_dict, lotteried=None):
-        # 3.0 Setting up the important variables
+        # 2.0 Setting up the important variables
         #     Set of taken picks, list of players selected (which needs to be ordered)
         #     all of the ball pit, and all of the information on the players.
         placement = player_dict['placement'].split(',')
@@ -41,37 +42,37 @@ class Lottery:
         np.random.shuffle(combos)
         pick_names = [ordinal(n) for n in range(1, len(placement) + 1)]
 
-        # 5.0 Here's the meat and potatoes
+        # 3.0 Here's the meat and potatoes
 
-        # 5.1 This way it ends when 6 picks have been lotteried, as the 7th one breaks
+        # 3.1 This way it ends when 6 picks have been lotteried, as the 7th one breaks
         while len(taken_picks) <= lotteried:
-            # 5.2 Draws the next player and iterates
+            # 3.2 Draws the next player and iterates
             ball_drawn = ball_pit[i]
             i += 1
             player_drawn = combos[ball_drawn]
 
-            # 5.3 Checks if player has already been drawn
+            # 3.3 Checks if player has already been drawn
             if player_drawn in selected_players:
                 self.messages.append('Player picked again!')
                 pass
             else:
-                # 5.4.0 If a new player's name has been drawn, adds them
+                # 3.4.0 If a new player's name has been drawn, adds them
                 self.messages.append('{} player picked! I wonder who it is...'.format(pick_names[len(taken_picks) -
                                                                                                       1]))
                 selected_players.append(player_drawn)
-                # 5.4.1 Checks their preferences to see which pick they actually get
+                # 3.4.1 Checks their preferences to see which pick they actually get
                 pick_prefs = players[player_drawn][1]
                 current_pick = 0
                 j = 0
                 while current_pick in taken_picks:
                     current_pick = pick_prefs[j]
                     j += 1
-                # 5.5 Adds it to the record
+                # 3.5 Adds it to the record
                 taken_picks.update([current_pick])
                 player_pick_dict[pick_names[current_pick - 1]] = player_drawn
         # That's the end of the lottery
 
-        # Just for fun, calculate the probability of the result. Rull easy.
+        # 4.0 Just for fun, calculate the probability of the result. Rull easy.
         prob = 1
         for name in selected_players:
             k = players[name][0]
@@ -80,7 +81,7 @@ class Lottery:
             balls -= k
         self.messages.append('The probability of this result was {}%!'.format(round(prob * 100, 5)))
 
-        # 6.0 This is a similar process, but for the non-lotteried picks. These are
+        # 5.0 This is a similar process, but for the non-lotteried picks. These are
         #     by playoff finish.
         for name in placement:
             if name not in selected_players:
@@ -93,11 +94,11 @@ class Lottery:
                 taken_picks.update([current_pick])
                 player_pick_dict[pick_names[current_pick - 1]] = name
 
-        # 7.0 Finale time!
+        # 6.0 Finale time!
         #     This sends the final lottery results to the group, in order from last
         #     to first!
 
-        # 7.1 I put my thang down flip it and reverse it
+        # 6.1 I put my thang down flip it and reverse it
         pick_names.reverse()
         for i, name in enumerate(pick_names):
             self.pick_messages.append('The {} pick goes to...'.format(name))
