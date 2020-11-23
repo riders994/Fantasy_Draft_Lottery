@@ -1,0 +1,9 @@
+README.md
+setup.py
+FantasyDraftLottery.egg-info/PKG-INFO
+FantasyDraftLottery.egg-info/SOURCES.txt
+FantasyDraftLottery.egg-info/dependency_links.txt
+FantasyDraftLottery.egg-info/requires.txt
+FantasyDraftLottery.egg-info/top_level.txt
+fantasydraftlottery/__init__.py
+fantasydraftlottery/draftorder.py
