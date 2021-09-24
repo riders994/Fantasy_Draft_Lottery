@@ -1,5 +1,7 @@
 import json
 import numpy as np
+import time
+from random import random
 
 # 1.0 Establishing globals.
 
@@ -14,18 +16,20 @@ def ordinal(n):
 
 PLAYERS_DICT = {
     "players": {
-        "Alex K": [120, [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]],
-        "Alison": [75,  [1, 2, 3, 4, 5, 10, 9, 8, 7, 6]],
-        "Alex W": [100, [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]],
-        "Chris":  [90,  [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]],
-        "James":  [100, [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]],
-        "John":   [110, [3, 10, 9, 8, 7, 6, 2, 1, 4, 5]],
-        "Neil":   [125, [4, 2, 3, 1, 5, 6, 7, 8, 9, 10]],
-        "Ravi":   [85,  [4, 5, 6, 7, 3, 2, 1, 8, 9, 10]],
-        "Rohan":  [115, [1, 2, 3, 4, 5, 6, 10, 9, 8, 7]],
-        "Sahil":  [80,  [6, 7, 10, 8, 4, 3, 5, 1, 2, 9]]
+        "Aaron":  [80,  [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]],
+        "Alex K": [75, [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]],
+        "Alison": [68,  [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]],
+        "Alex W": [116, [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]],
+        "Chris":  [62,  [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]],
+        "James C":  [105,  [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]],
+        "James W":  [86,  [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]],
+        "John":   [58,  [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]],
+        "Neil":   [98,  [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]],
+        "Ravi":   [110,  [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]],
+        "Rohan":  [92,  [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]],
+        "Sahil":  [50,  [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]],
     },
-    "placement": "Ravi,Chris,Rohan,John,Neil,Alex K,Alex W,James,Sahil,Alison"
+    "placement": "Sahil,John,Neil,James C,Ravi,Aaron,James W,Alex W,Rohan,Alex K,Allison,Chris"
 }
 
 
@@ -56,7 +60,7 @@ class Lottery:
 
         # 3.0 Here's the meat and potatoes
 
-        # 3.1 This way it ends when 6 picks have been lotteried, as the 7th one breaks
+        # 3.1 Sets limit for how many picks to go through
         while len(taken_picks) <= lotteried:
             # 3.2 Draws the next player and iterates
             ball_drawn = ball_pit[i]
@@ -120,5 +124,6 @@ class Lottery:
 if __name__ == '__main__':
     lotto = Lottery()
     lotto.run(PLAYERS_DICT, 4)
-    for msg in lotto.pick_messages:
+    for i, msg in enumerate(lotto.pick_messages):
+        time.sleep(random() * i)
         print(msg)
