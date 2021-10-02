@@ -16,20 +16,20 @@ def ordinal(n):
 
 PLAYERS_DICT = {
     "players": {
-        "Aaron":  [80,  [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]],
-        "Alex K": [75, [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]],
+        "Aaron":  [80,  [1, 2, 12, 11, 3, 10, 9, 8, 7, 4, 5, 6]],
+        "Alex K": [75, [12, 11, 10, 8, 9, 7, 6, 2, 3, 4, 5, 1]],
         "Alison": [68,  [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]],
         "Alex W": [116, [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]],
         "Chris":  [62,  [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]],
-        "James C":  [105,  [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]],
-        "James W":  [86,  [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]],
-        "John":   [58,  [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]],
-        "Neil":   [98,  [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]],
-        "Ravi":   [110,  [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]],
-        "Rohan":  [92,  [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]],
-        "Sahil":  [50,  [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]],
+        "James C":  [105,  [12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1]],
+        "James W":  [86,  [6, 5, 7, 4, 8, 3, 9, 10, 11, 12, 1, 2]],
+        "John":   [58,  [4, 9, 10, 11, 1, 2, 3, 5, 6, 7, 8, 12]],
+        "Neil":   [98,  [4, 5, 6, 1, 2, 3, 7, 8, 9, 10, 11, 12]],
+        "Ravi":   [110,  [3, 4, 2, 5, 1, 6, 8, 9, 7, 10, 11, 12]],
+        "Rohan":  [92,  [3, 4, 2, 5, 1, 6, 8, 9, 7, 10, 11, 12]],
+        "Sahil":  [50,  [12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1]],
     },
-    "placement": "Sahil,John,Neil,James C,Ravi,Aaron,James W,Alex W,Rohan,Alex K,Allison,Chris"
+    "placement": "Sahil,John,Neil,James C,Ravi,Aaron,James W,Alex W,Rohan,Alex K,Alison,Chris"
 }
 
 
@@ -123,7 +123,7 @@ class Lottery:
 
 if __name__ == '__main__':
     lotto = Lottery()
-    lotto.run(PLAYERS_DICT, 4)
+    lotto.run(PLAYERS_DICT, 5)
     for i, msg in enumerate(lotto.pick_messages):
-        time.sleep(random() * i)
+        time.sleep(random())
         print(msg)
