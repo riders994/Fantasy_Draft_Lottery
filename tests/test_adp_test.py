@@ -25,3 +25,9 @@ lotto.run()
 
 def test_lotto_size():
     assert len(lotto.pick_messages)/2 == len(PLAYERS_DICT['players'])
+
+def test_df():
+    pass
+
+def test_balls():
+    pass
