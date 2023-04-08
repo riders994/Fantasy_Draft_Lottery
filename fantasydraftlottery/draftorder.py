@@ -2,6 +2,7 @@ import json
 import numpy as np
 import time
 from random import random
+from collections import defaultdict
 
 # 1.0 Establishing globals.
 
@@ -16,20 +17,31 @@ def ordinal(n):
 
 PLAYERS_DICT = {
     "players": {
-        "Aaron":  [110,  [1, 2, 12, 11, 3, 10, 9, 8, 7, 4, 5, 6]],
-        "Alex K": [50, [12, 11, 10, 8, 9, 7, 6, 2, 3, 4, 5, 1]],
-        "Alison": [56,  [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]],
-        "Alex W": [86, [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]],
-        "Chris":  [104,  [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]],
-        "James":  [98,  [12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1]],
-        "Joe":    [92,  [6, 5, 7, 4, 8, 3, 9, 10, 11, 12, 1, 2]],
-        "John":   [62,  [4, 9, 10, 11, 1, 2, 3, 5, 6, 7, 8, 12]],
-        "Neil":   [68,  [4, 5, 6, 1, 2, 3, 7, 8, 9, 10, 11, 12]],
-        "Ravi":   [74,  [3, 4, 2, 5, 1, 6, 8, 9, 7, 10, 11, 12]],
-        "Rohan":  [116,  [3, 4, 2, 5, 1, 6, 8, 9, 7, 10, 11, 12]],
-        "Sahil":  [80,  [12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1]],
+        "Aaron":  [110, [1, 2, 3, 4, 5, 6, 7, 12, 11, 10, 9, 8]],
+        "Alex K": [51,  [12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1]],
+        "Alison": [57,  None],
+        "Alex W": [86,  [2, 1, 12, 3, 4, 5, 6, 7, 8, 9, 10, 11]],
+        "Chris":  [104, None],
+        "James":  [99,  [3, 4, 5, 6, 1, 2, 7, 12, 11, 10, 9, 8]],
+        "Joe":    [92,  None],
+        "John":   [63,  [1, 12, 2, 11, 3, 10, 4, 9, 5, 8, 6, 7]],
+        "Neil":   [68,  [7, 5, 6, 4, 1, 2, 3, 8, 9, 10, 11, 12]],
+        "Ravi":   [74,  [9, 8, 7, 1, 2, 3, 4, 5, 6, 10, 11, 12]],
+        "Rohan":  [116, [1, 2, 3, 4, 5, 6, 7, 12, 11, 10, 9, 8]],
+        "Sahil":  [81,  [9, 8, 7, 6, 5, 4, 3, 2, 1, 10, 11, 12]],
     },
     "placement": "John,Neil,James,Chris,Aaron,Rohan,Joe,Alex W,Sahil,Ravi,Alison,Alex K"
+}
+
+SLEEPERS_DICT = {
+    "players": {
+        "Rohan": [53, None],
+        "Meg": [26, None],
+        "Alison": [16, None],
+        "Alex": [5, None],
+
+    },
+    "placement": "Rohan,Meg,Alison,Alex"
 }
 
 
@@ -39,6 +51,8 @@ class Lottery:
     taken_picks = {0}
     selected_players = []
     player_pick_dict = {}
+    winner = None
+    tracker = defaultdict(int)
 
     def __init__(self, player_dict, lotteried=None):
         # 2.0 Setting up the important variables
@@ -59,7 +73,12 @@ class Lottery:
         self.pick_names = [ordinal(n) for n in range(1, len(self.placement) + 1)]
 
     def _get_pick_choice(self, player):
-        pick_prefs = self.players[player][1]
+        try:
+            pick_prefs = self.players[player][1]
+            if not pick_prefs:
+                pick_prefs = range(1, len(self.placement) + 1)
+        except KeyError:
+            pick_prefs = range(1, len(self.placement) + 1)
         current_pick = 0
         j = 0
         while current_pick in self.taken_picks:
@@ -78,12 +97,15 @@ class Lottery:
             ball_drawn = self.ball_pit[i]
             i += 1
             player_drawn = self.combos[ball_drawn]
+            self.tracker[player_drawn] += 1
 
             # 3.3 Checks if player has already been drawn
             if player_drawn in self.selected_players:
                 self.messages.append('Player picked again!')
                 pass
             else:
+                if not self.winner:
+                    self.winner = player_drawn
                 # 3.4.0 If a new player's name has been drawn, adds them
                 self.messages.append('{} player picked! I wonder who it is...'.format(self.pick_names[
                     len(self.taken_picks) - 1
@@ -95,6 +117,7 @@ class Lottery:
                 # 3.5 Adds it to the record
                 self.taken_picks.update([pick_choice])
                 self.player_pick_dict[self.pick_names[pick_choice - 1]] = player_drawn
+        self.messages.append('{} won the lottery this season!'.format(self.winner))
         # That's the end of the lottery
 
     def _proba(self):
@@ -117,7 +140,7 @@ class Lottery:
                 self.taken_picks.update([pick_choice])
                 self.player_pick_dict[self.pick_names[pick_choice - 1]] = name
 
-    def _verbose(self):
+    def _lottery_message(self):
         # 6.0 Finale time!
         #     This sends the final lottery results to the group, in order from last
         #     to first!
@@ -128,18 +151,18 @@ class Lottery:
             self.pick_messages.append('The {} pick goes to...'.format(name))
             self.pick_messages.append('{}!'.format(self.player_pick_dict[name]))
 
-    def run(self, proba=True, verbose=True):
+    def run(self, proba=True):
         self._lottery()
         if proba:
             self._proba()
         self._fill_order()
-        if verbose:
-            self._verbose()
+        self._lottery_message()
 
 
 if __name__ == '__main__':
-    lotto = Lottery(PLAYERS_DICT, 5)
+    lotto = Lottery(SLEEPERS_DICT, 4)
     lotto.run()
-    for _, msg in enumerate(lotto.pick_messages):
+    for msg in lotto.pick_messages:
         time.sleep(random())
         print(msg)
+    print('done')
