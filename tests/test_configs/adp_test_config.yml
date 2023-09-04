@@ -1,0 +1,10 @@
+A:
+  ballers:
+    '0': 20
+    '1': 10
+  picks: 2
+B:
+  ballers:
+    '0': 20
+    '1': 10
+  picks: 4
