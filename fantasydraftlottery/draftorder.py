@@ -17,20 +17,20 @@ def ordinal(n):
 
 PLAYERS_DICT = {
     "players": {
-        "Aaron":  [110, [1, 2, 3, 4, 5, 6, 7, 12, 11, 10, 9, 8]],
-        "Alex K": [51,  [12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1]],
-        "Alison": [57,  None],
-        "Alex W": [86,  [2, 1, 12, 3, 4, 5, 6, 7, 8, 9, 10, 11]],
-        "Chris":  [104, None],
-        "James":  [99,  [3, 4, 5, 6, 1, 2, 7, 12, 11, 10, 9, 8]],
-        "Joe":    [92,  None],
-        "John":   [63,  [1, 12, 2, 11, 3, 10, 4, 9, 5, 8, 6, 7]],
-        "Neil":   [68,  [7, 5, 6, 4, 1, 2, 3, 8, 9, 10, 11, 12]],
-        "Ravi":   [74,  [9, 8, 7, 1, 2, 3, 4, 5, 6, 10, 11, 12]],
-        "Rohan":  [116, [1, 2, 3, 4, 5, 6, 7, 12, 11, 10, 9, 8]],
-        "Sahil":  [81,  [9, 8, 7, 6, 5, 4, 3, 2, 1, 10, 11, 12]],
+        "Aaron":  [63, None],
+        "Alex K": [116,  None],
+        "Alison": [51,  None],
+        "Alex W": [104,  None],
+        "Chris":  [74, None],
+        "James":  [98,  [4, 5, 6, 7, 8, 9, 10, 11, 12, 1, 2, 3]],
+        "Joe":    [68,  None],
+        "John":   [81,  [12, 2, 3, 1, 4, 5, 6, 7, 8, 9, 10, 11]],
+        "Neil":   [86,  [6, 4, 5, 7, 1, 2, 3, 8, 9, 10, 11, 12]],
+        "Sam":    [92,  None],
+        "Rohan":  [57, [1, 2, 3, 4, 5, 6, 7, 12, 11, 10, 9, 8]],
+        "Sahil":  [110,  None],
     },
-    "placement": "John,Neil,James,Chris,Aaron,Rohan,Joe,Alex W,Sahil,Ravi,Alison,Alex K"
+    "placement": "Aaron,Joe,Alex W,James,Sahil,Ravi,Alex K,Neil,John,Chris,Rohan,Alison"
 }
 
 SLEEPERS_DICT = {
