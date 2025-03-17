@@ -1,4 +1,3 @@
-import json
 import numpy as np
 import time
 from random import random
@@ -35,13 +34,13 @@ PLAYERS_DICT = {
 
 SLEEPERS_DICT = {
     "players": {
-        "Rohan": [53, None],
+        "Dan": [53, None],
         "Meg": [26, None],
-        "Alison": [16, None],
-        "Alex": [5, None],
+        "Zach": [16, None],
+        "Fang": [5, None],
 
     },
-    "placement": "Rohan,Meg,Alison,Alex"
+    "placement": "Dan,Meg,Zach,Fang"
 }
 
 

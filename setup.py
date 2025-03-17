@@ -11,7 +11,7 @@ setup(
     long_description=open('README.md').read(),
     install_requires=[
         'pytest',
-        'pandas==1.1.4',
-        'numpy==1.22.0',
+        'pandas',
+        'numpy==2.2.1',
     ]
 )
