@@ -161,14 +161,19 @@ class Lottery:
         self._fill_order()
         self._lottery_message()
 
+    def print_results(self, drama_factor: int = 2, drama_point: float | int = .5, small_sleep = 0.5) -> None:
+        if drama_point < 1:
+            drama_point = self.player_num * drama_point * 2
+        for i, msg in enumerate(self.pick_messages):
+            if i < drama_point:
+                time.sleep(small_sleep)
+            else:
+                time.sleep(random() + i / (drama_factor * self.player_num))
+            print(msg)
 
 if __name__ == '__main__':
     lotto = Lottery(PLAYERS_DICT, 5)
     lotto.run()
-    for i, msg in enumerate(lotto.pick_messages):
-        if i < 16:
-            time.sleep(1)
-        else:
-            time.sleep(random() + i/32)
-        print(msg)
+    lotto.print_results()
+
     print('done')
