@@ -2,9 +2,12 @@ A:
   ballers:
     '0': 20
     '1': 10
-  picks: 2
+  lotteried: 2
 B:
   ballers:
     '0': 20
     '1': 10
-  picks: 4
+    '2': 5
+    '3': 2
+    '4': 1
+  lotteried: 4

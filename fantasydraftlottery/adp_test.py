@@ -1,3 +1,6 @@
+from itertools import permutations
+from collections import defaultdict
+
 import pandas as pd
 import json
 import yaml
@@ -14,14 +17,17 @@ TEST_CONFIGS = {
             '0': 20,
             '1': 10
         },
-        'picks': 2
+        'lotteried': 2
     },
     'B': {
         'ballers': {
             '0': 20,
-            '1': 10
+            '1': 10,
+            '2': 5,
+            '3': 2,
+            '4': 1
         },
-        'picks': 4
+        'lotteried': 4
     },
 }
 
@@ -30,9 +36,11 @@ class ADPTest:
 
     test_cases = dict()
     trial_summaries = dict()
+    proba_frames = dict()
 
     def __init__(self):
-        pass
+        self.adp_frame = None
+        self.proba_frame = None
 
     @staticmethod
     def _read_file(loc, fmt):
@@ -88,8 +96,8 @@ class ADPTest:
     def simulate(self, n):
         for name, test_case in self.test_cases.items():
             ballers = test_case['ballers']
-            picks = test_case['picks']
-            lotteried = len(ballers)
+            lotteried = test_case['lotteried']
+            picks = len(ballers)
             trials = dict()
 
             players = [ordinal(p + 1) for p in range(picks)]
@@ -104,11 +112,23 @@ class ADPTest:
             trial_frame = pd.DataFrame(trials)
             self.trial_summaries.update({name: trial_frame.mean(1)})
 
+    def _run_proba(self):
+        for name, test_case in self.test_cases.items():
+            ballers = test_case['ballers']
+            lotteried = test_case['lotteried']
+            perms = permutations(list(ballers.keys()), lotteried)
+            res = {k: defaultdict(int) for k in ballers.keys()}
+            scenarios = 0
+            for perm in perms:
+                for i, p in enumerate(perm):
+                    res[p][i] += 1
+                scenarios += 1
+            proba_frame = pd.DataFrame.from_dict(res)/scenarios
+            self.proba_frames.update({name: proba_frame})
+
     def run(self, runs=10000):
         self.simulate(runs)
-        res = pd.DataFrame(self.trial_summaries)
-        print(res)
-        return res
+        self.adp_frame = pd.DataFrame(self.trial_summaries)
 
 
 if __name__ == '__main__':

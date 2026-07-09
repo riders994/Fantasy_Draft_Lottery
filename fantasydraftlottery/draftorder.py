@@ -7,40 +7,42 @@ from collections import defaultdict
 
 # 1.1 This function is super great, found on SO
 
-
 def ordinal(n):
     return "%d%s" % (n, "tsnrhtdd"[(n/10 % 10 != 1)*(n % 10 < 4)*n % 10::4])
 
 # 1.2 just loading the defaults for testing
-
-
 PLAYERS_DICT = {
     "players": {
-        "Aaron":  [63, None],
-        "Alex K": [116,  None],
-        "Alison": [51,  None],
-        "Alex W": [104,  None],
-        "Chris":  [74, None],
-        "James":  [98,  [4, 5, 6, 7, 8, 9, 10, 11, 12, 1, 2, 3]],
-        "Joe":    [68,  None],
-        "John":   [81,  [12, 2, 3, 1, 4, 5, 6, 7, 8, 9, 10, 11]],
-        "Neil":   [86,  [6, 4, 5, 7, 1, 2, 3, 8, 9, 10, 11, 12]],
-        "Sam":    [92,  None],
-        "Rohan":  [57, [1, 2, 3, 4, 5, 6, 7, 12, 11, 10, 9, 8]],
-        "Sahil":  [110,  None],
+        "Aaron":  [100, None],
+        "Akash":  [50,  None],
+        "Karmie": [450, None],
+        "Brieff": [40,  None],
+        "Arslay": [250, None],
+        "Chris":  [70,  None],
+        "Dave":   [15,  None],
+        "David":  [0,   None],
+        "James":  [0,   None],
+        "Joe":    [25,  None],
+        "John":   [0,   None],
+        "Neil":   [0,   None],
+        "Nate":   [0,   None],
+        "Paul":   [0,   None],
+        "Rohan":  [0,   None],
+        "Sahil":  [0,   None],
     },
-    "placement": "Aaron,Joe,Alex W,James,Sahil,Ravi,Alex K,Neil,John,Chris,Rohan,Alison"
+    "placement": "Nate,James,John,Neil,Sahil,Rohan,Paul,David,Dave,Joe,Brieff,Akash,Chris,Aaron,Arslay,Karmie"
 }
+
 
 SLEEPERS_DICT = {
     "players": {
-        "Dan": [53, None],
-        "Meg": [26, None],
-        "Zach": [16, None],
-        "Fang": [5, None],
+        "Carla": [53, None],
+        "Dan": [26, None],
+        "Jordan": [16, None],
+        "Abbott": [5, None],
 
     },
-    "placement": "Dan,Meg,Zach,Fang"
+    "placement": "Carla,Dan,Jordan,Abbott"
 }
 
 
@@ -59,25 +61,27 @@ class Lottery:
         #     all of the ball pit, and all of the information on the players.
 
         self.placement = player_dict['placement'].split(',')
+        self.placement.reverse()
+        self.player_num = len(self.placement)
         self.players = player_dict['players']
         if lotteried:
             self.lotteried = lotteried
         else:
-            self.lotteried = len(self.placement)
+            self.lotteried = self.player_num
         self.combos = np.array(sum([[player] * odds_prefs[0] for player, odds_prefs in self.players.items()], []))
         self.balls = self.combos.size
         self.ball_pit = np.arange(self.balls)
         np.random.shuffle(self.ball_pit)
         np.random.shuffle(self.combos)
-        self.pick_names = [ordinal(n) for n in range(1, len(self.placement) + 1)]
+        self.pick_names = [ordinal(n + 1) for n in range(self.player_num)]
 
     def _get_pick_choice(self, player):
         try:
             pick_prefs = self.players[player][1]
             if not pick_prefs:
-                pick_prefs = range(1, len(self.placement) + 1)
+                pick_prefs = range(1, self.player_num + 1)
         except KeyError:
-            pick_prefs = range(1, len(self.placement) + 1)
+            pick_prefs = range(1, self.player_num + 1)
         current_pick = 0
         j = 0
         while current_pick in self.taken_picks:
@@ -159,9 +163,12 @@ class Lottery:
 
 
 if __name__ == '__main__':
-    lotto = Lottery(SLEEPERS_DICT, 4)
+    lotto = Lottery(PLAYERS_DICT, 5)
     lotto.run()
-    for msg in lotto.pick_messages:
-        time.sleep(random())
+    for i, msg in enumerate(lotto.pick_messages):
+        if i < 16:
+            time.sleep(1)
+        else:
+            time.sleep(random() + i/32)
         print(msg)
     print('done')
