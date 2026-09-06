@@ -47,18 +47,23 @@ SLEEPERS_DICT = {
 
 
 class Lottery:
-    messages = []
-    pick_messages = []
-    taken_picks = {0}
-    selected_players = []
-    player_pick_dict = {}
-    winner = None
-    tracker = defaultdict(int)
 
     def __init__(self, player_dict, lotteried=None):
         # 2.0 Setting up the important variables
         #     Set of taken picks, list of players selected (which needs to be ordered)
         #     all of the ball pit, and all of the information on the players.
+
+        # 2.1 Per-lottery bookkeeping. These have to be instance attributes: as
+        #     class attributes every Lottery shared one copy, so a second run
+        #     found all 16 picks already taken, skipped the draw entirely and
+        #     silently reported the previous run's results.
+        self.messages = []
+        self.pick_messages = []
+        self.taken_picks = {0}
+        self.selected_players = []
+        self.player_pick_dict = {}
+        self.winner = None
+        self.tracker = defaultdict(int)
 
         self.placement = player_dict['placement'].split(',')
         self.placement.reverse()
