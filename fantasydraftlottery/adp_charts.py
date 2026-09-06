@@ -14,7 +14,6 @@ Run it to dump the two chart tables to JSON:
 
 import json
 import sys
-from collections import defaultdict
 
 from .draftorder import PLAYERS_DICT, Lottery, ordinal
 
@@ -92,15 +91,6 @@ def simulate(player_dict, lotteried, trials=20000, seed=None):
     counts = {name: [0] * len(placement) for name in placement}
     for _ in range(trials):
         lotto = Lottery(player_dict, lotteried)
-        # Lottery keeps its bookkeeping on the class, not the instance, so a
-        # fresh run needs its own copies or every trial piles onto the last.
-        lotto.messages = []
-        lotto.pick_messages = []
-        lotto.taken_picks = {0}
-        lotto.selected_players = []
-        lotto.player_pick_dict = {}
-        lotto.winner = None
-        lotto.tracker = defaultdict(int)
         lotto.run(proba=False)
         for pick in range(1, len(placement) + 1):
             counts[lotto.player_pick_dict[ordinal(pick)]][pick - 1] += 1
